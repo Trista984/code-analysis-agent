@@ -1,7 +1,7 @@
 {
   "name": "code-analysis-agent",
   "version": "1.0.0",
-  "description": "AI代码分析助手 - 智能分析代码仓库并生成结构化功能定位报告",
+  "description": "代码分析助手 - 智能分析代码仓库并生成结构化功能定位报告",
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",

@@ -11,16 +11,16 @@ class CodeAnalysisService {
         let extractedPath = null;
         
         try {
-            console.log('正在解压ZIP文件...');
+            console.log('解压文件中...');
             extractedPath = await this.fileService.extractZip(zipFilePath);
             
-            console.log('正在分析代码结构...');
+            console.log('分析代码结构...');
             const codeStructure = await this.fileService.analyzeCodeStructure(extractedPath);
             
             const formattedStructure = this.fileService.formatStructureForLLM(codeStructure);
             const keyFileContents = this.prepareKeyFileContents(codeStructure);
             
-            console.log('正在使用AI分析代码...');
+            console.log('AI分析中...');
             const analysisResult = await this.llmClient.analyzeCode(
                 problemDescription,
                 formattedStructure,
@@ -40,7 +40,7 @@ class CodeAnalysisService {
             };
             
             if (includeVerification) {
-                console.log('正在生成功能验证测试...');
+                console.log('生成测试用例...');
                 try {
                     const verificationResult = await this.llmClient.generateFunctionalVerification(
                         analysisResult.feature_analysis,
@@ -49,7 +49,7 @@ class CodeAnalysisService {
                     
                     report.functional_verification = verificationResult;
                 } catch (error) {
-                    console.warn('功能验证生成失败:', error.message);
+                    console.warn('测试生成失败:', error.message);
                     report.functional_verification = {
                         error: error.message,
                         generated_test_code: '',
@@ -64,7 +64,7 @@ class CodeAnalysisService {
             return report;
             
         } catch (error) {
-            console.error('代码分析失败:', error);
+            console.error('分析出错:', error);
             throw new Error(`代码分析失败: ${error.message}`);
         } finally {
             if (extractedPath) {

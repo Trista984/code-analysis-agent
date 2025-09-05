@@ -37,7 +37,7 @@ class App {
     }
 
     setupRoutes() {
-        const storage = multer.diskStorage({
+const storage = multer.diskStorage({
             destination: async (req, file, cb) => {
                 const uploadDir = path.join(__dirname, '../uploads');
                 await fs.ensureDir(uploadDir);
@@ -47,12 +47,12 @@ class App {
                 const timestamp = Date.now();
                 const random = Math.round(Math.random() * 1E9);
                 cb(null, `code-${timestamp}-${random}.zip`);
-            }
-        });
+  }
+});
 
-        const upload = multer({
-            storage: storage,
-            limits: {
+const upload = multer({ 
+  storage: storage,
+  limits: {
                 fileSize: parseInt(process.env.MAX_FILE_SIZE) || 50 * 1024 * 1024,
                 files: 1
             }
@@ -62,7 +62,7 @@ class App {
             try {
                 await this.controller.analyzeCode(req, res);
             } catch (error) {
-                console.error('分析请求处理错误:', error);
+                console.error('分析请求出错:', error);
                 res.status(500).json({
                     success: false,
                     error: '服务器内部错误',
@@ -75,7 +75,7 @@ class App {
             try {
                 await this.controller.healthCheck(req, res);
             } catch (error) {
-                console.error('健康检查错误:', error);
+                console.error('健康检查出错:', error);
                 res.status(500).json({
                     status: 'unhealthy',
                     error: error.message
@@ -87,7 +87,7 @@ class App {
             try {
                 await this.controller.getApiInfo(req, res);
             } catch (error) {
-                console.error('API信息获取错误:', error);
+                console.error('API信息获取出错:', error);
                 res.status(500).json({
                     success: false,
                     error: '获取API信息失败'
@@ -132,7 +132,7 @@ class App {
                 }
             }
 
-            console.error('未处理的错误:', error);
+            console.error('未处理错误:', error);
             res.status(500).json({
                 success: false,
                 error: '服务器内部错误',
@@ -141,7 +141,7 @@ class App {
         });
 
         this.app.use((error, req, res, next) => {
-            console.error('全局错误处理:', error);
+            console.error('全局错误:', error);
             res.status(500).json({
                 success: false,
                 error: '服务器内部错误',
@@ -177,8 +177,8 @@ class App {
         const missing = requiredVars.filter(varName => !process.env[varName]);
 
         if (missing.length > 0) {
-            console.error('缺少必需的环境变量:', missing.join(', '));
-            console.error('请检查.env文件或环境变量配置');
+            console.error('缺少环境变量:', missing.join(', '));
+            console.error('请检查.env文件配置');
             process.exit(1);
         }
 
@@ -214,12 +214,12 @@ process.on('SIGTERM', () => {
 });
 
 process.on('uncaughtException', (error) => {
-    console.error('未捕获的异常:', error);
+    console.error('未捕获异常:', error);
     app.shutdown();
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-    console.error('未处理的Promise拒绝:', reason);
+    console.error('未处理Promise拒绝:', reason);
     app.shutdown();
 });
 

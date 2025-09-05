@@ -21,10 +21,10 @@ class AnalysisController {
             const includeVerification = include_verification === 'true' || 
                                       req.body.include_verification === true;
 
-            console.log('开始代码分析...');
-            console.log('问题描述:', problem_description);
+            console.log('开始分析...');
+            console.log('描述:', problem_description);
             console.log('文件大小:', codeZipFile.size, 'bytes');
-            console.log('包含验证:', includeVerification);
+            console.log('验证模式:', includeVerification);
 
             const analysisResult = await this.codeAnalysisService.analyzeCode(
                 problem_description,
@@ -41,13 +41,13 @@ class AnalysisController {
                 timestamp: new Date().toISOString()
             };
 
-            console.log('代码分析完成');
-            console.log('分析质量分数:', reportSummary.analysis_quality_score);
+            console.log('分析完成');
+            console.log('质量分数:', reportSummary.analysis_quality_score);
 
             res.status(200).json(response);
 
         } catch (error) {
-            console.error('分析请求处理错误:', error);
+            console.error('处理出错:', error);
             res.status(500).json({
                 success: false,
                 error: '代码分析失败',

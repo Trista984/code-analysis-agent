@@ -57,8 +57,8 @@ class AIProviderManager {
                     return this.generateMockAnalysis(problemDescription, codeStructure);
             }
         } catch (error) {
-            console.error(`${this.currentProvider} API调用失败:`, error.message);
-            console.log('回退到智能分析模式');
+            console.error(`${this.currentProvider} 调用失败:`, error.message);
+            console.log('切换到智能分析模式');
             return this.generateMockAnalysis(problemDescription, codeStructure);
         }
     }
@@ -96,7 +96,7 @@ class AIProviderManager {
         try {
             return JSON.parse(text);
         } catch (error) {
-            console.warn('Gemini响应解析失败，尝试提取JSON部分');
+            console.warn('Gemini响应解析失败，尝试提取JSON');
             const jsonMatch = text.match(/\{[\s\S]*\}/);
             if (jsonMatch) {
                 return JSON.parse(jsonMatch[0]);
@@ -157,7 +157,7 @@ class AIProviderManager {
     }
 
     generateMockAnalysis(problemDescription, codeStructure) {
-        console.log('使用智能分析模式生成分析结果');
+        console.log('使用智能分析模式');
         
         const features = this.extractFeaturesFromDescription(problemDescription);
         const codeFiles = this.analyzeCodeStructure(codeStructure);

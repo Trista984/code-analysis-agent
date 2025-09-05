@@ -9,14 +9,14 @@ class LLMClient {
         try {
             return await this.aiProvider.analyzeCode(problemDescription, codeStructure, fileContents);
         } catch (error) {
-            console.error('LLM分析错误:', error);
+            console.error('LLM分析出错:', error);
             throw new Error(`代码分析失败: ${error.message}`);
         }
     }
 
     async generateFunctionalVerification(featureAnalysis, codeStructure) {
         try {
-            console.log('使用智能验证模式生成测试代码');
+            console.log('生成测试代码');
             
             const testCode = this.generateTestCode(featureAnalysis);
             
@@ -29,7 +29,7 @@ class LLMClient {
                 }
             };
         } catch (error) {
-            console.error('测试生成错误:', error);
+            console.error('测试生成出错:', error);
             throw new Error(`测试代码生成失败: ${error.message}`);
         }
     }
@@ -55,14 +55,14 @@ describe('智能功能验证测试', () => {
         assert(response.body, '响应体应该存在');
         assert(response.status === 200, '状态码应该是200');
         
-        console.log('${feature.feature_description} - 测试通过');
+        console.log('${feature.feature_description} - 通过');
     });
 `;
         });
 
         testCode += `
     afterAll(() => {
-        console.log('所有功能测试完成');
+        console.log('测试完成');
     });
 });
 `;

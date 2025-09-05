@@ -166,3 +166,4 @@ coverage/
 # Build artifacts
 dist/
 build/
+.history/
